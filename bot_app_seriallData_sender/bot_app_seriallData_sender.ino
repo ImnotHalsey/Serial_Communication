@@ -160,5 +160,5 @@ void loop() {
 //    T2 Motor values are normal: 95
 //    T3 Motor Driver values are normal: 30
 //    Water level is normal: 5.00
-//    Low Battery detected. Received code: 0
-//    [0,53.00,117,95,30,5.00,0]
+//    Low Battery detected. Received code: 4
+//    [0,53.00,117,95,30,5.00,4]

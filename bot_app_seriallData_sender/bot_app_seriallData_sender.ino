@@ -39,15 +39,15 @@ public:
 
   // get Emergency Alert
   int EmergencyAlert() {
-    // Check the following parameters {WHAT IF MORE THAN ONE ERROR OCCURS! --> Need Confirmation}
-      // --> Parameters will be checked from the above functions only 
+    // Check the following parameters 
+      // --> Parameters will be checked from the above functions only  --> If Flase returned by the function it will be considered as Error!
         //  --> 1. checks water level 
         //  --> 2. checks current draw [low and high ] -- (of what need to be declared yet)
         //  --> 3. checks for Temperatures [low and High] -- (of motors[T1, T2] and drivers[T3])
         //  --> 4. checks for battery voltage level [Low and High]
         //  --> 5. Finally Gives the Error code according to the conditions above and Documentations 
 
-    return random(0, 4);
+    return 0;
   }
 };
 
@@ -70,9 +70,9 @@ SensorData ArrayMaker() {
 
 void sendData(const SensorData & data) {
     mySerial.write((uint8_t*)&data, sizeof(SensorData));
-    Serial.println("Sent data as an array");
 
-    // Print individual values without a custom print function
+    // Print individual values without a custom print function --> Remove this in prod !
+    Serial.println("Sent data as an array");
     Serial.print("Timestamp: "); Serial.println(data.timestamp);
     Serial.print("Bot battery: "); Serial.println(data.botBatteryVoltage);
     Serial.print("T1 Motor temperature: "); Serial.println(data.t1MotorTemperature);
@@ -117,7 +117,8 @@ void receiveData(SensorData& data) {
 }
 
 void communication_processor(const SensorData& data) {
-  Serial.print(data.timestamp); // Print data and time
+  Serial.print("TimetStamp: ");
+  Serial.println(data.timestamp); // Print data and time
   if (data.botBattery < 45 || data.botBattery > 60) {
     Serial.println("Anomalous battery values detected.");
   } else {

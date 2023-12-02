@@ -69,6 +69,64 @@ void receiveData(SensorData& data) {
     }
 }
 
+void communication_processor(const SensorData& data) {
+  Serial.print(data.timestamp); // Print data and time
+  if (data.botBattery < 45 || data.botBattery > 60) {
+    Serial.println("Anomalous battery values detected.");
+  } else {
+    Serial.print("Battery Voltage: ");
+    Serial.println(data.botBattery);
+  }
+
+  if (data.t1MotorTemperature < 15 || data.t1MotorTemperature > 121) {
+    Serial.println("Anomalous T1 Motor values detected.");
+  } else {
+    Serial.print("T1 Motor values are normal: ");
+    Serial.println(data.t1MotorTemperature);
+  }
+
+  if (data.t2MotorTemperature < 15 || data.t2MotorTemperature > 121) {
+    Serial.println("Anomalous T2 Motor values detected.");
+  } else {
+    Serial.print("T2 Motor values are normal: ");
+    Serial.println(data.t2MotorTemperature);
+  }
+
+  if (data.t3MotorDriverTemperature < 15 || data.t3MotorDriverTemperature > 121) {
+    Serial.println("Anomalous T3 Motor Driver values detected.");
+  } else {
+    Serial.print("T3 Motor Driver values are normal: ");
+    Serial.println(data.t3MotorDriverTemperature);
+  }
+
+  if (data.waterLevel < 0 || data.waterLevel > 101) {
+    Serial.println("Anomalous water level detected.");
+  } else {
+    Serial.print("Water level is normal: ");
+    Serial.println(data.waterLevel);
+  }
+
+  switch (data.EmergencyAlert) {
+    case 0:
+      Serial.println("No Errors: 0");
+      break;
+    case 1:
+      Serial.println("Low Water Level detected. Received code: 1");
+      break;
+    case 2:
+      Serial.println("High Current detected. Received code: 2");
+      break;
+    case 3:
+      Serial.println("High Temperature detected. Received code: 3");
+      break;
+    case 4:
+      Serial.println("Low Battery detected. Received code: 4");
+      break;
+    default:
+      Serial.println("Unknown Emergency Alert. Received code: " + String(data.EmergencyAlert)); // Need to assign a number for declaring no errors reported 
+  }
+}
+
 void printReceivedData(const SensorData& data) {
     Serial.print("[");
     Serial.print(data.timestamp);
@@ -90,7 +148,17 @@ void printReceivedData(const SensorData& data) {
 void loop() {
     SensorData receivedData;
     receiveData(receivedData);
-    printReceivedData(receivedData);
+    communication_processor(receivedData);
+    // printReceivedData(receivedData);
     delay(1000);
 }
 
+
+//      --> Expected Result <--
+//    Battery Voltage: 53.00
+//    T1 Motor values are normal: 117
+//    T2 Motor values are normal: 95
+//    T3 Motor Driver values are normal: 30
+//    Water level is normal: 5.00
+//    Low Battery detected. Received code: 0
+//    [0,53.00,117,95,30,5.00,0]

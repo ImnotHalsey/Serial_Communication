@@ -7,7 +7,7 @@ class SensorDataProcessor {
 public:
   long get_timestamp() {return 0;} 
 
-  float get_botBattery_voltage() {return random(45, 61);}
+  int get_botBattery_voltage() {return random(45, 61);}
 
   int get_T1MortorTemp() {
     return random(15, 120);}
@@ -18,13 +18,13 @@ public:
   int get_T3MortorDriverTemp() {
     return random(15, 120);}
 
-  float get_WaterLevelValue() {
+  int get_WaterLevelValue() {
     return random(0, 101);}
 
   int get_Steering_angle() {
     return random(-60, 60);}
 
-  void EmergencyAlert() {
+  int*  EmergencyAlert() {
     int results[] = {0, 0, 0,0, 0, 0,0, 0, 0, 0, 0,0};
     results[0] = get_timestamp();
     results[1] = get_botBattery_voltage();
@@ -59,7 +59,7 @@ public:
       results[11] = 1;
     }
 
-    // Print the results array
+    // Print the results array  // ----------> Write code to return the result list in the production 
     Serial.print("Results Array: ");
     for (size_t i = 0; i < sizeof(results) / sizeof(results[0]); ++i) {
       Serial.print(results[i]);

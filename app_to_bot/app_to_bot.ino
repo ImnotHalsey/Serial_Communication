@@ -56,6 +56,8 @@ void printer() {
     Serial.println();
 }
 
+
+
 void loop() {
     printer();
     delay(1000);

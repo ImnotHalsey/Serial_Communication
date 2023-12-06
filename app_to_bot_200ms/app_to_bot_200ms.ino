@@ -60,7 +60,7 @@ void loop() {
     sendData(randomData);
     delay(1000);
 }
-                    // Sending code End!
+                    // Sending code End! // This comment is from web VS Code
 
                     //  -- > Base code version :: 1
 

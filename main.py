@@ -1,15 +1,14 @@
-from datetime import datetime
-import pytz
+import telebot
 
-# Set the time zone to Indian Standard Time
-india_timezone = pytz.timezone('Asia/Kolkata')
+# Replace 'YOUR_BOT_TOKEN' with your actual bot token
+bot = telebot.TeleBot('6900589010:AAFR1daWHcRsdc8h025DrEpyk6eVN2ePUHc')
 
-# Get the current time in UTC
-utc_now = datetime.utcnow()
+@bot.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+    bot.reply_to(message, "Welcome! I am your bot.")
 
-# Convert the UTC time to Indian Standard Time
-ist_now = utc_now.replace(tzinfo=pytz.utc).astimezone(india_timezone)
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    bot.reply_to(message, message.text)
 
-# Format and print the time
-formatted_time = ist_now.strftime('%Y-%m-%d %H:%M:%S %Z')
-print(f"Current time in India (IST): {formatted_time}")
+bot.polling()
